@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name"><b>Donation.1.5</b></string>
+    <string name="donate">Donate</string>
+    <string name="s">£</string>
+    <string name="total_so_far">Total so Far $</string>
+    <string name="todo">TODO</string>
+    <string name="amount">Amount</string>
+    <string name="direct">Direct</string>
+    <string name="paypal">PayPal</string>
+    <string name="please_give_generously">Please Give Generously</string>
+    <string name="settings">Settings</string>
+</resources>
