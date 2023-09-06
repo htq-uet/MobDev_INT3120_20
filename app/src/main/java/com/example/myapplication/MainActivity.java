@@ -5,9 +5,12 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.view.KeyEvent;
-import android.view.MotionEvent;
+
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.PopupMenu;
+import android.view.MotionEvent;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -32,8 +35,26 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+        //"More" button
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
+
+        // More icon click listener
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if (item.getItemId() == R.id.action_settings) {
+                    showPopupMenu(toolbar);
+                    return true;
+                }
+                return false;
+            }
+        });
+
+
 
         // Hide the soft keyboard when the user taps outside an EditText
         View mainLayout = findViewById(R.id.relativeLayout);
@@ -110,4 +131,31 @@ public class MainActivity extends AppCompatActivity {
             amountTextView.setText("Total so Far  $" + sum);
         });
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_settings, menu);
+        return true;
+    }
+
+    private void showPopupMenu(View view) {
+        PopupMenu popupMenu = new PopupMenu(this, view);
+        popupMenu.getMenuInflater().inflate(R.menu.menu_settings, popupMenu.getMenu());
+
+        // Set a click listener for the menu items
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                // Handle the settings item click here
+                if (item.getItemId() == R.id.action_settings) {
+                    // Open your settings activity or fragment here
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        popupMenu.show();
+    }
 }
+
