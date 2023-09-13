@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="name" type="id" />
+    <item name="phone" type="id" />
+    <item name="cheese" type="id" />
+    <item name="shape" type="id" />
+    <item name="topping" type="id" />
+    <item name="peppe" type="id" />
+    <item name="nuke" type="id" />
+    <item name="vegeta" type="id" />
+    <item name="ord1" type="id" />
+    <item name="ord2" type="id" />
+    <item name="exit" type="id" />
+    <item name="sms" type="id" />
+</resources>
