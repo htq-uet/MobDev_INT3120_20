@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TableRow>
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="0dp"
+            android:layout_height="66dp"
+            android:layout_weight="1"
+            android:background="#3F51B5"
+            app:collapseIcon="@color/white"
+            app:titleTextAppearance="@style/TextAppearance.AppCompat.Large"
+            app:titleTextColor="@color/white" />
+    </TableRow>
+
+    <TableRow>
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Welcome Homer"
+            android:padding="16dp"
+            android:textSize="25sp"
+            android:layout_marginTop="0dp" />
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:layout_marginStart="16dp"
+            android:text="Please Give Generously"
+            android:textColor="#a8a8a8"
+            android:textSize="20sp" />
+    </TableRow>
+
+    <TableRow android:layout_height="332dp">
+
+        <RadioGroup
+            android:id="@+id/radioGroup"
+            android:layout_width="125dp"
+            android:layout_height="115dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="20dp">
+
+            <RadioButton
+                android:layout_width="103dp"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="PayPal"
+                android:textSize="15sp" />
+
+            <RadioButton
+                android:layout_width="101dp"
+                android:layout_height="wrap_content"
+                android:text="Direct"
+                android:textSize="15sp" />
+        </RadioGroup>
+
+        <NumberPicker
+            android:id="@+id/numberPicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="1"
+            android:layout_gravity="end|bottom"
+            android:layout_marginStart="-10dp"
+            android:layout_marginTop="70dp"
+            android:layout_span="1" />
+    </TableRow>
+
+    <TableRow>
+
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ProgressBar
+            android:id="@+id/progressBar2"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="0dp"
+            android:layout_height="19dp"
+            android:layout_weight="1"
+            android:progress="20"
+            android:progressTint="?attr/colorPrimary" />
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="86dp"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:layout_marginStart="28dp"
+            android:layout_marginEnd="100dp"
+            android:text="Amount"
+            android:textColor="#a8a8a8"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/editTextText"
+            android:layout_width="262dp"
+            android:layout_height="64dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="-100dp"
+            android:backgroundTint="#0552EB"
+            android:ems="10"
+            android:imeOptions="actionDone"
+            android:inputType="number"
+            android:textCursorDrawable="@drawable/custom_cursor"
+            android:autofillHints="" />
+    </TableRow>
+
+    <TableRow>
+
+        <Button
+            android:id="@+id/button"
+            style="@style/Widget.AppCompat.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="23dp"
+            android:layout_marginEnd="90dp"
+            android:shadowColor="#6C6868"
+            android:text="@string/donate"
+            android:textColor="#0B0000"
+            app:backgroundTint="#CCCACA" />
+    </TableRow>
+
+    <TableRow >
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="90dp"
+            android:text="@string/total_so_far"
+            android:textColor="#a8a8a8"
+            android:textSize="20sp" />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floatingActionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:backgroundTint="#0000FF"
+            android:clickable="true"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="20dp"
+            android:contentDescription="TODO"
+            android:focusable="true"
+            app:maxImageSize="26dp"
+            app:shapeAppearanceOverlay="@style/MyCircularShape"
+            app:srcCompat="@drawable/ic_dialog_email_white"
+            app:tint="#FFFFFF" />
+    </TableRow>
+
+</TableLayout>
+

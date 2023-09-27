@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--LINEAR LAYOUT-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="411dp"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#3F51B5"
+        app:collapseIcon="@color/white"
+        app:titleTextAppearance="@style/TextAppearance.AppCompat.Large"
+        app:titleTextColor="@color/white" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="-50dp"
+            android:text="@string/welcome_homer"
+            android:textColor="@color/black"
+            android:textSize="22sp" />
+
+        <TextView
+            android:id="@+id/textView4"
+
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="56dp"
+            android:text="@string/please_give_generously"
+            android:textColor="#757373"
+            android:textSize="16sp" />
+
+        <RadioGroup
+            android:layout_width="98dp"
+            android:layout_height="61dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="82dp"
+            android:layout_marginBottom="-100dp">
+
+            <RadioButton
+                android:id="@+id/radioButton"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:checked="true"
+                android:text="@string/paypal"
+                android:textStyle="normal" />
+
+            <RadioButton
+                android:id="@+id/radioButton2"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:text="@string/direct" />
+        </RadioGroup>
+
+        <NumberPicker
+            android:id="@+id/numberPicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginTop="55dp"
+            android:layout_marginEnd="9dp"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:max="1000"
+            android:min="1"
+            android:value="999" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="16dp"
+        android:orientation="vertical">
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="16dp"
+            android:progress="20"
+            android:progressTint="#0552EC"
+            tools:layout_centerVertical="true" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="16dp"
+            android:text="@string/amount"
+            android:textSize="16sp" />
+
+
+        <EditText
+            android:id="@+id/editTextText"
+            android:layout_width="276dp"
+            android:layout_height="40dp"
+            android:layout_gravity="end"
+            android:layout_marginTop="-25dp"
+            android:autofillHints=""
+            android:backgroundTint="#0552EB"
+            android:ems="10"
+            android:imeOptions="actionDone"
+            android:inputType="number"
+            android:labelFor="@+id/editTextText"
+            android:textCursorDrawable="@drawable/custom_cursor" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:layout_gravity="bottom"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="30dp"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/button"
+            style="@style/Widget.AppCompat.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="23dp"
+            android:shadowColor="#6C6868"
+            android:text="@string/donate"
+            android:textColor="#0B0000"
+            app:backgroundTint="#CCCACA" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="130dp"
+            android:text="@string/total_so_far"
+            android:textSize="16sp" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floatingActionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:backgroundTint="#0000FF"
+            android:clickable="true"
+            android:layout_marginTop="-10px"
+            android:contentDescription="TODO"
+            android:focusable="true"
+            app:maxImageSize="26dp"
+            app:shapeAppearanceOverlay="@style/MyCircularShape"
+            app:srcCompat="@drawable/ic_dialog_email_white"
+            app:tint="#FFFFFF" />
+    </LinearLayout>
+
+
+</LinearLayout>
