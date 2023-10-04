@@ -22,6 +22,13 @@ public class MyReceiver extends BroadcastReceiver {
 
     public void showNotification(Context context, String msg) {
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel("CHANNEL_ID_NOTIFICATION", "Channel Name", NotificationManager.IMPORTANCE_DEFAULT);
+            channel.setDescription("Channel Description");
+            NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "CHANNEL_ID_NOTIFICATION");
         builder.setSmallIcon(R.drawable.baseline_speaker_notes_24)
                 .setContentTitle("Notification")

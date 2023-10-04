@@ -13,12 +13,15 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
     private Button button;
 
     private MyReceiver broadcastReceiver;
+
+    private boolean isRegistered = false;
 
     private IntentFilter intentFilter;
 
@@ -39,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
         broadcastReceiver = new MyReceiver();
         intentFilter = new IntentFilter("com.example.ACTION_MY_EVENT");
         registerReceiver(broadcastReceiver, intentFilter);
+        isRegistered = true;
 
         button = (Button) findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {
@@ -51,4 +55,25 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        if (!isRegistered) {
+//            broadcastReceiver = new MyReceiver();
+//            intentFilter = new IntentFilter("com.example.ACTION_MY_EVENT");
+//            registerReceiver(broadcastReceiver, intentFilter);
+//            isRegistered = true;
+//        }
+//    }
+//
+//    @Override
+//    public void onStop() {
+//        super.onStop();
+//        if (isRegistered) {
+//            unregisterReceiver(broadcastReceiver);
+//            Toast.makeText(MainActivity.this, "Unregistered broadcast receiver", Toast.LENGTH_SHORT).show();
+//            isRegistered = false;
+//        }
+//    }
 }
