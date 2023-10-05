@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -18,8 +19,10 @@ import androidx.core.app.ActivityCompat;
 public class MainActivity extends AppCompatActivity {
 
     private EditText nameEditText, phoneEditText;
-    private Button addButton, deleteButton;
+    private Button addButton, deleteButton, updateButton;
     private ListView contactListView;
+
+    private TextView _id;
     private ArrayAdapter<String> adapter;
     private static final Uri CONTENT_URI = ContactProvider.CONTENT_URI; // Sử dụng CONTENT_URI từ ContactProvider
 
@@ -33,10 +36,12 @@ public class MainActivity extends AppCompatActivity {
                 new String[]{android.Manifest.permission.WRITE_CONTACTS},
                 PackageManager.PERMISSION_GRANTED);
 
+        _id = findViewById(R.id.textId);
         nameEditText = findViewById(R.id.nameEditText);
         phoneEditText = findViewById(R.id.phoneEditText);
         addButton = findViewById(R.id.addButton);
         deleteButton = findViewById(R.id.deleteButton);
+        updateButton = findViewById(R.id.updateButton);
         contactListView = findViewById(R.id.contactListView);
 
         // Thiết lập adapter cho ListView
@@ -67,10 +72,27 @@ public class MainActivity extends AppCompatActivity {
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String name = nameEditText.getText().toString();
-                deleteContact(name);
+                Long id = Long.parseLong(_id.getText().toString());
+                deleteContact(id);
                 displayContacts();
                 clearFields();
+            }
+        });
+
+        updateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Long id = Long.parseLong(_id.getText().toString());
+                String name = nameEditText.getText().toString();
+                String phone = phoneEditText.getText().toString();
+
+                ContentValues values = new ContentValues();
+                //UPDATE TABLE_CONTACTS SET COLUMN_NAME = name, COLUMN_PHONE = phone WHERE COLUMN_ID = id
+                values.put(DatabaseHelper.COLUMN_NAME, name);
+                values.put(DatabaseHelper.COLUMN_PHONE, phone);
+                getContentResolver().update(CONTENT_URI, values, DatabaseHelper.COLUMN_ID + "=?", new String[]{String.valueOf(id)});
+
+
             }
         });
 
@@ -81,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
                 String selectedContact = adapter.getItem(position);
                 String[] parts = selectedContact.split(": ");
                 if (parts.length == 2) {
+                    _id.setText(String.valueOf(id));
                     nameEditText.setText(parts[0]);
                     phoneEditText.setText(parts[1]);
                 }
@@ -92,7 +115,6 @@ public class MainActivity extends AppCompatActivity {
     private void displayContacts() {
         adapter.clear();
 
-        // Truy vấn danh bạ từ Content Provider
         Cursor cursor = getContentResolver().query(CONTENT_URI, null, null, null, null);
 
         if (cursor != null) {
@@ -111,13 +133,18 @@ public class MainActivity extends AppCompatActivity {
         values.put(DatabaseHelper.COLUMN_NAME, name);
         values.put(DatabaseHelper.COLUMN_PHONE, phone);
 
+        //Bulk insert
+        ContentValues[] bulkValues = new ContentValues[100];
+        for (int i = 0; i < 100; i++) {
+            bulkValues[i] = values;
+        }
+        getContentResolver().bulkInsert(CONTENT_URI, bulkValues);
 
-        getContentResolver().insert(CONTENT_URI, values);
     }
 
     // Xóa một liên hệ khỏi danh bạ
-    private void deleteContact(String name) {
-        getContentResolver().delete(CONTENT_URI, DatabaseHelper.COLUMN_NAME + "=?", new String[]{name});
+    private void deleteContact(Long id) {
+        getContentResolver().delete(CONTENT_URI, DatabaseHelper.COLUMN_ID + "=?", new String[]{String.valueOf(id)});
     }
 
     // Xóa nội dung trong các trường EditText

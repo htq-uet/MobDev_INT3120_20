@@ -5,12 +5,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <ListView
-        android:id="@+id/contactListView"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/textId"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:divider="@android:color/darker_gray"
-        android:dividerHeight="1dp"/>
+        android:text="ID: "/>
 
     <EditText
         android:id="@+id/nameEditText"
@@ -35,5 +34,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Xóa"/>
+    <Button
+        android:id="@+id/updateButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cập nhật"/>
+
+    <ListView
+        android:id="@+id/contactListView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@android:color/darker_gray"
+        android:dividerHeight="1dp" />
 
 </LinearLayout>

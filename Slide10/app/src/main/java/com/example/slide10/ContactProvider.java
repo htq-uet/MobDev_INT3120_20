@@ -50,6 +50,26 @@ public class ContactProvider extends ContentProvider {
         }
     }
 
+    //Bulk insert
+    @Override
+    public int bulkInsert(Uri uri, ContentValues[] values) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        int count = 0;
+        db.beginTransaction();
+        try {
+            for (ContentValues value : values) {
+                long rowId = db.insert(DatabaseHelper.TABLE_CONTACTS, null, value);
+                if (rowId > 0) {
+                    count++;
+                }
+            }
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+        }
+        return count;
+    }
+
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
