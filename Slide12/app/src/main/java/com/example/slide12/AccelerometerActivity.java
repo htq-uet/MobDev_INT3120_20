@@ -60,9 +60,7 @@ public class AccelerometerActivity extends AppCompatActivity implements SensorEv
 
         int color = lastColor;
 
-        if (x == 0 || y == 0 || z == 0) {
-            color = Color.WHITE;
-        } else if (x > 5 || y > 5 || z > 5) {
+        if (x > 5 || y > 5 || z > 5) {
             color = Color.RED;
         } else if (x < -5 || y < -5 || z < -5) {
             color = Color.BLUE;

@@ -1,11 +1,13 @@
 package com.example.slide12;
 
 import android.content.Context;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -30,6 +32,7 @@ public class WifiActivity extends AppCompatActivity {
     private WifiManager wifiManager;
 
     private TextView wifiStatus;
+    private ConnectivityChangedReceiver connectivityChangedReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,13 +42,12 @@ public class WifiActivity extends AppCompatActivity {
         onOffWifiSwitch = findViewById(R.id.on_off_wifi);
         refreshButton = findViewById(R.id.btnRefresh);
         wifiListView = findViewById(R.id.wifiListView);
-        wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+        wifiManager = (WifiManager) this.getSystemService(Context.WIFI_SERVICE);
         wifiStatus = findViewById(R.id.wifiStatus);
 
         if (wifiManager.isWifiEnabled()) {
             onOffWifiSwitch.setChecked(true);
             wifiStatus.setText(wifiManager.getConnectionInfo().toString());
-            Log.d("WifiActivity", wifiManager.getConnectionInfo().toString());
 
         } else {
             onOffWifiSwitch.setChecked(false);
@@ -71,27 +73,35 @@ public class WifiActivity extends AppCompatActivity {
         refreshWifiList();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        connectivityChangedReceiver = new ConnectivityChangedReceiver();
+        registerReceiver(connectivityChangedReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+
+        refreshWifiList();
+    }
+
     private void showToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     private void refreshWifiList() {
-        List<String> wifiList = new ArrayList<>();
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            wifiList.add("Location permission is not granted.");
             return;
         }
-        List<ScanResult> scanResults = wifiManager.getScanResults();
+        wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        registerReceiver(connectivityChangedReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+        wifiManager.startScan();
 
-        if (wifiManager.isWifiEnabled()) {
-            for (ScanResult result : scanResults) {
-                wifiList.add(result.SSID + " - " + result.capabilities);
-            }
-        } else {
-            wifiList.add("WiFi is not enabled.");
+        List<ScanResult> wifiList = wifiManager.getScanResults();
+        List<String> wifiListString = new ArrayList<>();
+
+        for (ScanResult scanResult : wifiList) {
+            wifiListString.add(scanResult.SSID);
         }
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, wifiList);
-        wifiListView.setAdapter(adapter);
+        wifiListView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, wifiListString));
     }
 }
