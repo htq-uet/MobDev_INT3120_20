@@ -47,14 +47,14 @@ public class CompassActivity extends AppCompatActivity implements SensorEventLis
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        float azimuth = (float) ((event.values[0] + 48.4) * 360 / (2 * 48.4));
+        float azimuth = (float) (event.values[0]);
 
+        if (azimuth < 0) {
+            azimuth += 360;
+        }
 
-
-        // Đặt góc quay của ảnh la bàn
         compassImage.setRotation(azimuth);
 
-        // Hiển thị giá trị azimuth đã làm tròn lên TextView
         degreeText.setText(String.format("%.2f°", azimuth));
     }
 

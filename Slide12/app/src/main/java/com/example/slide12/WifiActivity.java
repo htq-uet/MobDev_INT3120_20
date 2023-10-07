@@ -1,15 +1,15 @@
 package com.example.slide12;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -17,91 +17,80 @@ import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class WifiActivity extends AppCompatActivity {
 
-    private Switch onOffWifiSwitch;
-    private Button refreshButton;
-    private ListView wifiListView;
-    private WifiManager wifiManager;
+    public static Activity wifiActivity;
+    private WifiManager mWifiManager;
+    private TextView networkInfoTextView, wifiInfoTextView, status;
 
-    private TextView wifiStatus;
-    private ConnectivityChangedReceiver connectivityChangedReceiver;
+    public static ListView listView;
 
+    private ConnectivityManager mConnectivityManager;
+    ConnectivityChangedReceiver receiver = new ConnectivityChangedReceiver();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.wifi_layout);
 
-        onOffWifiSwitch = findViewById(R.id.on_off_wifi);
-        refreshButton = findViewById(R.id.btnRefresh);
-        wifiListView = findViewById(R.id.wifiListView);
-        wifiManager = (WifiManager) this.getSystemService(Context.WIFI_SERVICE);
-        wifiStatus = findViewById(R.id.wifiStatus);
+        mConnectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        if (wifiManager.isWifiEnabled()) {
-            onOffWifiSwitch.setChecked(true);
-            wifiStatus.setText(wifiManager.getConnectionInfo().toString());
+        //Network Info
+        NetworkInfo networkInfo = mConnectivityManager.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected()) {
+            networkInfoTextView = findViewById(R.id.wifiStatus);
+            networkInfoTextView.setText("Network Info: " + networkInfo.toString());
 
         } else {
-            onOffWifiSwitch.setChecked(false);
+            Toast.makeText(this, "Not connected", Toast.LENGTH_SHORT).show();
         }
 
-        refreshButton.setOnClickListener(new View.OnClickListener() {
+        //Wifi Info
+        mWifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        wifiInfoTextView = findViewById(R.id.wifiInfo);
+        wifiInfoTextView.setText("Wifi Info: " + mWifiManager.getConnectionInfo().toString());
+
+
+
+
+        registerReceiver(receiver, new IntentFilter(WifiManager.WIFI_STATE_CHANGED_ACTION));
+        mWifiManager.startScan();
+        //List of Wifi Networks
+        Button scanButton = findViewById(R.id.scan_wifi);
+        listView = findViewById(R.id.wifiList);
+        scanButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                refreshWifiList();
+                if (ActivityCompat.checkSelfPermission(WifiActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(WifiActivity.this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+                } else {
+                    mWifiManager.startScan();
+                    List<ScanResult> scanResults = mWifiManager.getScanResults();
+                    List<String> wifiList = new ArrayList<>();
+                    for (ScanResult scanResult : scanResults) {
+                        wifiList.add(scanResult.SSID);
+                    }
+                    listView.setAdapter(new ArrayAdapter<>(WifiActivity.this, android.R.layout.simple_list_item_1, wifiList));
+                }
             }
         });
 
-        onOffWifiSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                wifiManager.setWifiEnabled(true);
-                showToast("WiFi has been turned on.");
-            } else {
-                wifiManager.setWifiEnabled(false);
-                showToast("WiFi has been turned off.");
-            }
-        });
 
-        refreshWifiList();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
-        connectivityChangedReceiver = new ConnectivityChangedReceiver();
-        registerReceiver(connectivityChangedReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
-
-        refreshWifiList();
+        wifiActivity = this;
     }
-
-    private void showToast(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-    }
-
-    private void refreshWifiList() {
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-        wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        registerReceiver(connectivityChangedReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
-        wifiManager.startScan();
-
-        List<ScanResult> wifiList = wifiManager.getScanResults();
-        List<String> wifiListString = new ArrayList<>();
-
-        for (ScanResult scanResult : wifiList) {
-            wifiListString.add(scanResult.SSID);
-        }
-
-        wifiListView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, wifiListString));
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(receiver);
     }
 }

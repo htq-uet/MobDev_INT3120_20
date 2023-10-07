@@ -68,6 +68,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //Telephone
+        Button telephoneButton = findViewById(R.id.telephone);
+        telephoneButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, TelephoneActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
 
