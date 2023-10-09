@@ -78,6 +78,26 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //Camera
+        Button cameraButton = findViewById(R.id.camera);
+        cameraButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, CameraActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        //Bluetooth
+        Button bluetoothButton = findViewById(R.id.bluetooth);
+        bluetoothButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, BluetoothActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
 
