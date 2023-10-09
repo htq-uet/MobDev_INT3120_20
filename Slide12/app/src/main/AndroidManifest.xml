@@ -15,7 +15,12 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
+
+
+    <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.any" />
+
+
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -24,6 +29,8 @@
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
     <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
 
 
     <application
@@ -45,26 +52,47 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AccelerometerActivity"
-            android:exported="true"/>
-        <activity android:name=".CompassActivity"
-            android:exported="true"/>
-        <activity android:name=".WifiActivity"
-            android:exported="true"/>
-        <activity android:name=".TelephoneActivity"
-            android:exported="true"/>
-        <activity android:name=".CameraActivity"
-            android:exported="true"/>
-        <activity android:name=".CameraImpl"
-            android:exported="true"/>
-        <activity android:name=".BluetoothActivity"
-            android:exported="true"/>
-        <receiver android:name=".ConnectivityChangedReceiver"
+        <activity
+            android:name=".AccelerometerActivity"
+            android:exported="true" />
+        <activity
+            android:name=".CompassActivity"
+            android:exported="true" />
+        <activity
+            android:name=".WifiActivity"
+            android:exported="true" />
+        <activity
+            android:name=".TelephoneActivity"
+            android:exported="true" />
+        <activity
+            android:name=".MessageActivity"
+            android:exported="true" />
+        <activity
+            android:name=".CameraActivity"
+            android:exported="true" />
+        <activity android:name=".MainCameraActivity"
+            android:exported="true"
+            />
+        <activity
+            android:name=".BluetoothActivity"
+            android:exported="true" />
+
+        <receiver
+            android:name=".ConnectivityChangedReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
-    </application>
+        <receiver android:name="MySMSReceiver"
+            android:exported="true"
+            >
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SMS_RECEIVED"/>
+            </intent-filter>
+        </receiver>
 
-</manifest>
+
+</application>
+
+    </manifest>

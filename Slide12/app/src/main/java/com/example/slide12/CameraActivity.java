@@ -11,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class CameraActivity extends AppCompatActivity {
 
+    static Bitmap bitmap;
+    public static ImageView imageView;
     private Button cameraButton, openCameraButton;
 
     private static final int TAKE_PICTURE = 1;
@@ -19,6 +21,11 @@ public class CameraActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.camera_layout);
+        imageView = findViewById(R.id.image_view);
+
+        if (bitmap != null) {
+            imageView.setImageBitmap(bitmap);
+        }
 
         cameraButton = findViewById(R.id.take_a_pic);
         cameraButton.setOnClickListener(v -> {
@@ -28,7 +35,7 @@ public class CameraActivity extends AppCompatActivity {
 
         openCameraButton = findViewById(R.id.open_camera);
         openCameraButton.setOnClickListener(v -> {
-            Intent intent = new Intent(CameraActivity.this, CameraImpl.class);
+            Intent intent = new Intent(CameraActivity.this, MainCameraActivity.class);
             startActivity(intent);
         });
     }
@@ -43,8 +50,10 @@ public class CameraActivity extends AppCompatActivity {
             Bitmap imageBitmap = (Bitmap) extras.get("data");
 
             // Hiển thị hình ảnh lên layout
-            ImageView imageView = findViewById(R.id.image_view);
+
             imageView.setImageBitmap(imageBitmap);
         }
     }
+
+
 }
