@@ -84,6 +84,7 @@
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
+
         <receiver android:name="MySMSReceiver"
             android:exported="true"
             >
@@ -91,6 +92,7 @@
                 <action android:name="android.provider.Telephony.SMS_RECEIVED"/>
             </intent-filter>
         </receiver>
+        
 
 
 </application>
